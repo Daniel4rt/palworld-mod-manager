@@ -1,11 +1,17 @@
-# palworld-mod-manager
+<p align="center">
+  <img src="https://rmontor.com/images/e7d29dd1-3b55-4ef6-b2ee-958005d477be.png" alt="Palworld Mod Manager" width="900">
+</p>
 
-![GitHub release](https://img.shields.io/github/v/release/Daniel4rt/palworld-mod-manager?color=blue)
-![GitHub stars](https://img.shields.io/github/stars/Daniel4rt/palworld-mod-manager?style=flat)
-![GitHub issues](https://img.shields.io/github/issues/Daniel4rt/palworld-mod-manager)
-![License](https://img.shields.io/github/license/Daniel4rt/palworld-mod-manager)
-![Python](https://img.shields.io/badge/python-3.12-blue)
-![Docker](https://img.shields.io/badge/docker-ready-blue?logo=docker)
+<p align="center">
+  <a href="https://github.com/Daniel4rt/palworld-mod-manager/releases">
+    <img src="https://img.shields.io/github/v/release/Daniel4rt/palworld-mod-manager?color=blue">
+  </a>
+  <img src="https://img.shields.io/github/stars/Daniel4rt/palworld-mod-manager?style=flat">
+  <img src="https://img.shields.io/github/issues/Daniel4rt/palworld-mod-manager">
+  <img src="https://img.shields.io/github/license/Daniel4rt/palworld-mod-manager">
+  <img src="https://img.shields.io/badge/python-3.12-blue">
+  <img src="https://img.shields.io/badge/docker-ready-blue?logo=docker">
+</p>
 
 A Docker-based mod manager for Palworld servers, designed to work alongside
 [`thijsvanloef/palworld-server-docker`](https://github.com/thijsvanloef/palworld-server-docker)
