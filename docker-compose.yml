@@ -1,0 +1,189 @@
+# Comandos
+# docker compose up -d
+# docker compose down
+# docker compose logs -f
+# https://github.com/thijsvanloef/palworld-server-docker
+
+services:
+  mod-manager:
+    build: .
+    container_name: palworld-mod-manager
+    restart: "no"
+    volumes:
+      - ./mods.yml:/config/mods.yml:ro
+      - ./cache:/cache
+      - ./downloads:/downloads
+      - ./palworld:/palworld
+
+  palworld:
+    image: thijsvanloef/palworld-server-docker:latest
+    container_name: palworld-server
+    stop_grace_period: 30s
+    restart: unless-stopped
+    depends_on:
+      mod-manager:
+        condition: service_completed_successfully
+
+    cap_add:
+      - NET_RAW
+
+    ports:
+      - "30100:30100/udp"
+      - "8212:8212/tcp"
+      - "27015:27015/udp"
+      - "25575:25575/tcp"
+
+    volumes:
+      - ./palworld:/palworld
+
+    environment:
+
+
+      # Contenedor
+      PUID: 1000
+
+      PGID: 1000
+
+
+      # Servidor
+      SERVER_NAME: "Starlighto Server"
+      SERVER_DESCRIPTION: "Por la ludopatia en Pals"
+      PUBLIC_IP: "207.244.224.229"
+      PLAYERS: 10
+
+      PORT: 30100
+      PUBLIC_PORT: 30100
+      QUERY_PORT: 27015
+
+      REST_API_ENABLED: "true"
+      REST_API_PORT: 8212
+
+      COMMUNITY: "false"
+      SHOW_PLAYER_LIST: "true"
+      WAIT_FOR_NETWORK: "true"
+      NETWORK_TEST_URL: "https://steamcommunity.com"
+      UPDATE_ON_BOOT: "true"
+      USE_BACKUP_SAVE_DATA: "true"
+      ENABLE_GAMEDATA_API: "true"
+      AUTO_UPDATE_ENABLED: "true"
+
+      AUTO_UPDATE_CRON_EXPRESSION: "0 17 * * *"
+      AUTO_UPDATE_WARN_MINUTES: "10"
+
+      SERVER_PASSWORD: "1236"
+      ADMIN_PASSWORD: "TunasEnLaPiel123."
+
+      TZ: "UTC"
+      CROSSPLAY_PLATFORMS: "(Steam,Xbox,PS5,Mac)"
+
+      # RCON
+      RCON_ENABLED: "true"
+      RCON_PORT: "25575"
+
+      # Respaldos
+      BACKUP_ENABLED: "true"
+      BACKUP_CRON_EXPRESSION: "0 16 * * *"
+      DELETE_OLD_BACKUPS: "true"
+      OLD_BACKUP_DAYS: "7"
+
+      # Reinicio automático
+      AUTO_REBOOT_ENABLED: "true"
+      AUTO_REBOOT_CRON_EXPRESSION: "10 17 * * *"
+      AUTO_REBOOT_WARN_MINUTES: "10"
+      AUTO_REBOOT_EVEN_IF_PLAYERS_ONLINE: "true"
+
+      # Logs
+      LOG_FILTER_ENABLED: "true"
+      LOG_FORMAT_TYPE: "plain"
+
+      # Auto Pause
+      AUTO_PAUSE_ENABLED: "true"
+      ENABLE_PLAYER_LOGGING: "true"
+      PLAYER_LOGGING_POLL_PERIOD: "5"
+      AUTO_PAUSE_TIMEOUT_EST: "1800"
+      AUTO_PAUSE_LOG: "true"
+      AUTO_PAUSE_DEBUG: "false"
+      BAN_LIST_URL: "https://api.palworldgame.com/api/banlist.txt"
+
+
+      # Discord
+      DISCORD_WEBHOOK_URL: "https://discord.com/api/webhooks/1458565003488526336/9d8V6HKWYNsect6lDKvTuGEemkloRPm0zj0wYem4xJ3aEzRabtIgGZLSBpBxBvYQHUOa"
+
+      DISCORD_PRE_UPDATE_BOOT_MESSAGE_ENABLED: "true"
+      DISCORD_PRE_UPDATE_BOOT_MESSAGE: "Es hora del mantenimiento diario del servidor, en breve el servidor volvera a estar en linea por favor se paciente.."
+
+      DISCORD_POST_UPDATE_BOOT_MESSAGE_ENABLED: "true"
+      DISCORD_POST_UPDATE_BOOT_MESSAGE: "Se han revisado las actualizaciones, el servidor ha sido actualizado a la ultima version del juego."
+
+      DISCORD_PRE_START_MESSAGE_ENABLED: "true"
+      DISCORD_PRE_START_MESSAGE: "Servidor en linea."
+
+      DISCORD_POST_START_MESSAGE_ENABLED: "false"
+      DISCORD_POST_START_MESSAGE: ""
+
+      DISCORD_PLAYER_JOIN_MESSAGE_ENABLED: "true"
+      DISCORD_PLAYER_JOIN_MESSAGE: "player_name se unio al servidor."
+
+      DISCORD_PLAYER_LEAVE_MESSAGE_ENABLED: "true"
+      DISCORD_PLAYER_LEAVE_MESSAGE: "player_name salio del servidor."
+
+      DISCORD_PRE_SHUTDOWN_MESSAGE_ENABLED: "true"
+      DISCORD_PRE_SHUTDOWN_MESSAGE: "El servidor se esta apagando."
+
+      DISCORD_POST_SHUTDOWN_MESSAGE_ENABLED: "false"
+      DISCORD_POST_SHUTDOWN_MESSAGE: ""
+
+      DISCORD_POST_BACKUP_MESSAGE_ENABLED: "true"
+      DISCORD_POST_BACKUP_MESSAGE: "Copia de seguridad completada en file_path."
+
+      DISABLE_GENERATE_SETTINGS_FILE: "false"
+      DISABLE_GENERATE_SETTINGS: "false"
+
+
+      # Configuración del juego
+
+      # General
+      DIFFICULTY: "Normal"
+      DEATH_PENALTY: "None"
+      CHAT_POST_LIMIT_PER_MINUTE: "30"
+
+      # PAL & RATES
+      PAL_CAPTURE_RATE: "1.5"
+      PAL_SPAWN_NUM_RATE: "0.7"
+      PAL_STAMINA_DECREASE_RATE: "0.3"
+      PAL_CARRY_WEIGHT_INCREASE_RATE: "2"
+      PAL_EGG_DEFAULT_HATCHING_TIME: "1"
+      WORK_SPEED_RATE: "2"
+      EXP_RATE: "1.5"
+      PLAYER_STAMINA_DECREASE_RATE: "0.3"
+      PLAYER_CARRY_WEIGHT_INCREASE_RATE: "2"
+      RESOURCE_SPAWN_RATE: "1.0"
+
+      PAL_LOST: "false"
+
+      # ALLOW
+      ALLOW_GLOBAL_PALBOX_EXPORT: "true"
+      ALLOW_GLOBAL_PALBOX_IMPORT: "true"
+      ALLOW_PAL_TRADING: "true"
+      ALLOW_PAL_SHARING: "true"
+      ALLOW_FLYING_PALS: "true"
+      ALLOW_LEGACY_PALS: "true"
+      ALLOW_MODDED_PALS: "false"
+      ALLOW_PAL_SHOP: "true"
+      ALLOW_DUNGEON_FAST_TRAVEL: "true"
+      ALLOW_CLIENT_MOD: "true"
+
+      # ENABLE
+      ENABLE_FAST_TRAVEL: "true"
+      ENABLE_FRIENDLY_FIRE: "false"
+      ENABLE_NON_LOGIN_PENALTY: "true"
+      ENABLE_PREDATOR_BOSS_PAL: "true"
+
+      # IS
+      IS_PVP: "false"
+      IS_SHOW_JOIN_LEFT_MESSAGE: "true"
+
+      # BASE
+      BASE_CAMP_MAX_NUM: "128"
+      BASE_CAMP_MAX_NUM_IN_GUILD: "6"
+      BASE_CAMP_WORKER_MAX_NUM: "18"

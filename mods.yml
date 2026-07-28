@@ -1,0 +1,10 @@
+# mods.yml - List of mods to manage
+mods:
+  - id: 3812345678
+    enabled: true
+
+  - id: 3823456789
+    enabled: true
+
+  - id: 3834567890
+    enabled: false

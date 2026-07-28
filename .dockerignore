@@ -1,0 +1,11 @@
+.git
+__pycache__
+.pytest_cache
+.vscode
+.idea
+downloads
+cache
+palworld
+*.pyc
+*.pyo
+test_steam_integration.py
