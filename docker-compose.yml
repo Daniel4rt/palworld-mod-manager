@@ -1,0 +1,46 @@
+# Comandos
+# docker compose up -d
+# docker compose down
+# docker compose logs -f
+# https://github.com/thijsvanloef/palworld-server-docker
+
+services:
+  mod-manager:
+    build: .
+    container_name: palworld-mod-manager
+    restart: "no"
+    volumes:
+      - ./mods.yml:/config/mods.yml:ro
+      - ./cache:/cache
+      - ./downloads:/downloads
+      - ./palworld:/palworld
+
+  palworld:
+    image: thijsvanloef/palworld-server-docker:latest
+    restart: unless-stopped
+    container_name: palworld-server
+    stop_grace_period: 30s
+    depends_on:
+      mod-manager:
+        condition: service_completed_successfully
+    ports:
+      - 8211:8211/udp
+      - 27015:27015/udp
+      - 8212:8212/tcp
+    environment:
+      PUID: 1000
+      PGID: 1000
+      PORT: 8211
+      PLAYERS: 16
+      SERVER_PASSWORD: "worldofpals"
+      REST_API_ENABLED: true
+      REST_API_PORT: 8212
+      TZ: "UTC"
+      ADMIN_PASSWORD: "adminPasswordHere"
+      COMMUNITY: false
+      SERVER_NAME: "palworld-server-docker by Thijs van Loef"
+      SERVER_DESCRIPTION: "palworld-server-docker by Thijs van Loef"
+      CROSSPLAY_PLATFORMS: "(Steam,Xbox,PS5,Mac)"
+      LOG_LEVEL: "INFO"
+    volumes:
+      - ./palworld:/palworld/
