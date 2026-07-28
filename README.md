@@ -1,5 +1,11 @@
 # palworld-mod-manager
-<<<<<<< HEAD
+
+![GitHub release](https://img.shields.io/github/v/release/Daniel4rt/palworld-mod-manager?color=blue)
+![GitHub stars](https://img.shields.io/github/stars/Daniel4rt/palworld-mod-manager?style=flat)
+![GitHub issues](https://img.shields.io/github/issues/Daniel4rt/palworld-mod-manager)
+![License](https://img.shields.io/github/license/Daniel4rt/palworld-mod-manager)
+![Python](https://img.shields.io/badge/python-3.12-blue)
+![Docker](https://img.shields.io/badge/docker-ready-blue?logo=docker)
 
 A Docker-based mod manager for Palworld servers, designed to work alongside
 [`thijsvanloef/palworld-server-docker`](https://github.com/thijsvanloef/palworld-server-docker)
@@ -74,6 +80,3 @@ mods:
 ```
 
 Set `enabled: false` to disable a mod without removing it from the list.
-=======
-A mod manager for docker compose palworld servers
->>>>>>> d4ab95657fc17cd9688b07921a608dc21c7a5b31
