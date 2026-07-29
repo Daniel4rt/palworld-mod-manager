@@ -13,64 +13,77 @@
   <img src="https://img.shields.io/badge/docker-ready-blue?logo=docker">
 </p>
 
-A Docker-based mod manager for Palworld servers, designed to work alongside
+A Docker-integrated mod manager for Palworld servers, designed to work directly
+inside the
 [`thijsvanloef/palworld-server-docker`](https://github.com/thijsvanloef/palworld-server-docker)
+container.
 
-## Requirements
+The manager automatically synchronizes Steam Workshop mods before the server
+starts, ensuring your installation is always up to date.
 
-- Docker
-- Docker Compose
+---
 
-## Usage
+# Features
 
-1. Edit `mods.yml` with the Workshop IDs you want to install.
-2. Run:
+- Install Steam Workshop mods automatically
+- Update existing mods
+- Remove obsolete mods
+- Enable or disable mods without deleting them
+- Automatically regenerate `PalModSettings.ini`
+- Runs automatically before every server startup
+- Fully integrated into the original `thijsvanloef/palworld-server-docker` image
+
+---
+
+# Requirements
+
+Before installing Palworld Mod Manager, make sure your server is already
+working correctly using the official
+[`thijsvanloef/palworld-server-docker`](https://github.com/thijsvanloef/palworld-server-docker)
+repository.
+
+The Mod Manager modifies the original Docker image, so it must be rebuilt once
+the files have been added.
+
+---
+
+# Installation
+
+## 1. Clone the original server
 
 ```bash
-docker compose up -d
+git clone https://github.com/thijsvanloef/palworld-server-docker.git
+cd palworld-server-docker
 ```
 
-3. To add, remove or update mods, edit `mods.yml` and run the same command again.
+---
 
-## Docker Compose
+## 2. Copy the Mod Manager files
 
-```
-docker compose up -d
-        │
-        ▼
-mod-manager
-        │
-        ▼
-Instala / actualiza / elimina mods
-        │
-        ▼
-Exit 0
-        │
-        ▼
-Palworld Server
+Copy the following into the server project:
+
+```text
+app/
+requirements.txt
+mods.yml
+Dockerfile
+scripts/start.sh
 ```
 
-The `mod-manager` service runs first. Only if it exits with code 0 will the
-`palworld` server container start. This guarantees the server always boots
-with the correct mods already in place.
+The provided `Dockerfile` and `start.sh` already contain the required changes to
+execute the Mod Manager automatically before starting Palworld.
 
-The only file you need to modify is:
+---
+
+## 3. Configure your mods
+
+Edit:
 
 ```text
 mods.yml
 ```
 
-After editing it, apply the changes by running:
-
-```bash
-docker compose up -d
-```
-
-The manager will install new mods, update changed ones, remove mods that are
-no longer listed, regenerate `PalModSettings.ini`, and then hand off to the
-server automatically.
-
-## mods.yml format
+Example:
 
 ```yaml
 mods:
@@ -84,4 +97,150 @@ mods:
     enabled: false
 ```
 
-Set `enabled: false` to disable a mod without removing it from the list.
+Use:
+
+```yaml
+enabled: false
+```
+
+to temporarily disable a mod without removing it from the configuration.
+
+---
+
+## 4. Rebuild the Docker image
+
+Since the Mod Manager is integrated into the container, Docker must rebuild the
+image.
+
+```bash
+docker compose build
+```
+
+If you want a completely clean rebuild:
+
+```bash
+docker compose build --no-cache
+```
+
+---
+
+## 5. Start the server
+
+```bash
+docker compose up -d
+```
+
+The startup sequence is now:
+
+```text
+docker compose up -d
+        │
+        ▼
+Palworld Container
+        │
+        ▼
+Palworld Mod Manager
+        │
+        ▼
+Install / Update / Remove Mods
+        │
+        ▼
+Generate PalModSettings.ini
+        │
+        ▼
+Palworld Server
+```
+
+The server will only start after the Mod Manager finishes successfully.
+
+---
+
+# Updating Mods
+
+Whenever you want to add, remove or update Workshop mods:
+
+1. Edit:
+
+```text
+mods.yml
+```
+
+2. Rebuild the image:
+
+```bash
+docker compose build
+```
+
+3. Restart the server:
+
+```bash
+docker compose up -d
+```
+
+During startup the Mod Manager will:
+
+- Install new Workshop mods
+- Update existing mods
+- Remove deleted mods
+- Regenerate `PalModSettings.ini`
+- Launch the Palworld server
+
+No additional commands are required.
+
+---
+
+# mods.yml format
+
+```yaml
+mods:
+  - id: 3812345678
+    enabled: true
+
+  - id: 3823456789
+    enabled: true
+
+  - id: 3834567890
+    enabled: false
+```
+
+---
+
+# Directory Structure
+
+```text
+palworld-server-docker/
+├── app/
+├── mods.yml
+├── requirements.txt
+├── Dockerfile
+├── scripts/
+│   └── start.sh
+├── cache/
+├── downloads/
+└── palworld/
+```
+
+---
+
+# How it works
+
+On every container startup the Mod Manager performs the following steps:
+
+1. Read `mods.yml`
+2. Compare the installed Workshop mods
+3. Download new mods
+4. Update outdated mods
+5. Remove obsolete mods
+6. Generate `PalModSettings.ini`
+7. Start the Palworld dedicated server
+
+This guarantees the server always starts with the exact mod configuration
+defined in `mods.yml`.
+
+---
+
+# License
+
+This project follows the license of this repository.
+
+Palworld and all related assets belong to Pocketpair.
