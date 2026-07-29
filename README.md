@@ -15,7 +15,6 @@
 
 A Docker-based mod manager for Palworld servers, designed to work alongside
 [`thijsvanloef/palworld-server-docker`](https://github.com/thijsvanloef/palworld-server-docker)
-without modifying it.
 
 ## Requirements
 
