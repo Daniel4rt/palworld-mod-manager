@@ -71,13 +71,21 @@ def check_steamcmd_installation() -> None:
     """
     Verifica que SteamCMD esté instalado y sea ejecutable.
 
-    Ejecuta 'steamcmd +quit' para confirmar que responde correctamente.
+    Ejecuta SteamCMD con +quit para confirmar que responde correctamente.
 
     Raises:
-        PreflightError: Si steamcmd no se encuentra o no responde.
+        PreflightError: Si SteamCMD no se encuentra o no responde.
     """
+    steamcmd = Path("/home/steam/steamcmd/steamcmd.sh")
+
+    if not steamcmd.is_file():
+        raise PreflightError(
+            f"SteamCMD not found at '{steamcmd}'."
+        )
+
     result = subprocess.run(
-        ["steamcmd", "+quit"],
+        [str(steamcmd), "+quit"],
+        cwd=str(steamcmd.parent),
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,
