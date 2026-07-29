@@ -1,10 +1,21 @@
 # mods.yml - List of mods to manage
 mods:
-  - id: 3812345678
+  # UE4SS Experimental (Palworld)
+  - id: 3625223587
     enabled: true
 
-  - id: 3823456789
+  # PalSchema
+  - id: 3625280368
     enabled: true
 
-  - id: 3834567890
-    enabled: false
+  # No More Stuck Pals
+  - id: 3764060163
+    enabled: true
+
+  # Super Stacks No Lag
+  - id: 3770035710
+    enabled: true
+
+  # Stack Overhaul
+  - id: 3763814532
+    enabled: true

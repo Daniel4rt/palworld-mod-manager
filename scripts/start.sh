@@ -190,7 +190,8 @@ fi
 
 LogAction "Running Palworld Mod Manager"
 
-PYTHONPATH=/opt/palworld-mod-manager python3 -m app.main
+PYTHONPATH=/opt/palworld-mod-manager \
+/opt/palworld-mod-manager/venv/bin/python -m app.main
 
 MOD_MANAGER_EXIT_CODE=$?
 

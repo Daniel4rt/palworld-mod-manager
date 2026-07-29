@@ -217,8 +217,9 @@ RUN mkdir -p \
 COPY ./app /opt/palworld-mod-manager/app
 COPY ./requirements.txt /opt/palworld-mod-manager/
 
-RUN python3 -m pip install --no-cache-dir \
-    -r /opt/palworld-mod-manager/requirements.txt
+RUN python3 -m venv /opt/palworld-mod-manager/venv \
+    && /opt/palworld-mod-manager/venv/bin/pip install --no-cache-dir \
+       -r /opt/palworld-mod-manager/requirements.txt
 
 RUN chmod +x /home/steam/server/*.sh && \
     mv /home/steam/server/backup.sh /usr/local/bin/backup && \
