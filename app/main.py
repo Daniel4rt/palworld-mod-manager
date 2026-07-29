@@ -117,6 +117,14 @@ def main() -> None:
 
         mod_directory = DOWNLOAD_DIR / "steamapps" / "workshop" / "content" / PALWORLD_APP_ID / str(mod_id)
 
+        print(f"\nLooking in: {mod_directory}")
+        print(f"Exists: {mod_directory.exists()}")
+
+        if mod_directory.exists():
+            print("Contents:")
+            for p in mod_directory.rglob("*"):
+                print(f"  {p}")
+
         try:
             info = inspect_mod(mod_directory, mod_id)
         except InvalidModError as e:
