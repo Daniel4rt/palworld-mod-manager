@@ -19,3 +19,7 @@ mods:
   # Stack Overhaul
   - id: 3763814532
     enabled: true
+  
+  # Server Optimizer
+  - id: 3767052724
+    enabled: true
