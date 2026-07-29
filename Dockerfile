@@ -208,9 +208,14 @@ COPY ./scripts /home/steam/server/
 # Palworld Mod Manager
 # ------------------------------------------------------------------------------
 
+RUN mkdir -p \
+    /config \
+    /cache \
+    /downloads \
+    /opt/palworld-mod-manager
+
 COPY ./app /opt/palworld-mod-manager/app
 COPY ./requirements.txt /opt/palworld-mod-manager/
-COPY ./mods.yml /opt/palworld-mod-manager/
 
 RUN python3 -m pip install --no-cache-dir \
     -r /opt/palworld-mod-manager/requirements.txt
