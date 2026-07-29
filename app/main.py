@@ -2,6 +2,7 @@
 # Entry point of the application
 
 import sys
+import traceback
 from pathlib import Path
 
 from app.paths import MODS_CONFIG_PATH, CACHE_PATH, DOWNLOAD_DIR, SERVER_ROOT
@@ -196,5 +197,11 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception:
+        print("\n========== UNHANDLED EXCEPTION ==========\n")
+        traceback.print_exc(file=sys.stdout)
+        print("\n=========================================\n")
+        sys.exit(1)
 
